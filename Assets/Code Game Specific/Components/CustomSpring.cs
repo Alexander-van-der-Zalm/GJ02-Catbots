@@ -21,10 +21,14 @@ public class CustomSpring : SpringConnector
 
     private void CreateSpringConnections()
     {
+        // Offset for the two spring sets
         Vector2 offset = new Vector2();
 
-        Vector2 dir = Anchor - ConnectedAnchor;
-        if (Mathf.Abs(dir.x) > 0)
+        Vector2 anchorDelta = Anchor - ConnectedAnchor;
+        Vector3 dir = new Vector3(anchorDelta.x,anchorDelta.y) + (Rigid1.transform.position - Rigid2.transform.position);
+
+        // Check if horizontal or vertical
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
             offset = new Vector2(0, SpringWidth);
         else
             offset = new Vector2(SpringWidth, 0);
@@ -52,7 +56,7 @@ public class CustomSpring : SpringConnector
 
         for (int i = 0; i < 4; i++)
         {
-            SpringJoint2D j = (SpringJoint2D)Joints[i];
+            SpringJoint2D j = (SpringJoint2D)Joints[i].Joint;
             float dist = distance;
             if (i == 1 || i == 2)
                 dist = crossDist;
@@ -64,18 +68,12 @@ public class CustomSpring : SpringConnector
 
     public void OnDrawGizmosSelected()
     {
-        //GizmoColor;
-        CreateSpringConnections();
-        for (int i = 0; i < SpringConnections.Count; i++)
+        if (!enabled)
+            return;
+        if (!DrawJointGizmos())
         {
-            Gizmos.color = Color.green;
-            ConnectBySpring c = SpringConnections[i];
-            Vector3 pos1 = c.rigid1.transform.position + new Vector3(c.Anchor.x, c.Anchor.y, 10);
-            Vector3 pos2 = c.rigid2.transform.position + new Vector3(c.ConnectedAnchor.x, c.ConnectedAnchor.y, 10);
-            Gizmos.DrawLine(pos1, pos2);
-            Gizmos.DrawWireSphere(pos1, 0.1f);
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(pos2, 0.1f);
+            CreateSpringConnections();
+            DrawSpringConnections();
         }
     }
 

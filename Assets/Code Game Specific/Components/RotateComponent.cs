@@ -3,27 +3,37 @@ using System.Collections;
 
 public class RotateComponent : MonoBehaviour 
 {
-    Transform rotate;
+    HingeJoint2D hinge;
+    public float MotorSpeed;
 
 	void Start () 
     {
-        Init();
+        hinge = GetComponent<HingeJoint2D>();
+        JointMotor2D motor = hinge.motor;//.motorSpeed = MotorSpeed;
+        motor.motorSpeed = MotorSpeed;
+        hinge.motor = motor;
 	}
 
     protected void Init()
     {
-        //base.Init();
-        rotate = transform.Find("ROT");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Rotate(90.0f*Time.deltaTime);
+        if (Input.GetKey(KeyCode.I))
+        {
+            hinge.useMotor = true;
+            //hinge.constantForce
+            Debug.Log("A");
+        }
+        else
+            hinge.useMotor = false;
     }
 
     public void Rotate(float deltaAngle)
     {
-        rotate.Rotate(new Vector3(0, 0, 1), deltaAngle);
+
     }
 }

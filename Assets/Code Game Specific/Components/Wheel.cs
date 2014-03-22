@@ -22,9 +22,9 @@ public class Wheel : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D other)
     {
-        Debug.Log(other.transform.tag);
+        //Debug.Log(other.transform.tag);
        
-        if(jump && other.transform.tag == "Floor")
-            rigidbody2D.AddForce(new Vector2(0,600));
+        //if(jump && other.transform.tag == "Floor")
+        //    rigidbody2D.AddForce(new Vector2(0,600));
     }
 }
