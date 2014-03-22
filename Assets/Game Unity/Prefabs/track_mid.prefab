@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21200000}
   - 61: {fileID: 6100000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 16
   m_Name: track_mid
   m_TagString: Untagged
@@ -53,6 +54,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 0
   Cost: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9139debad7eda1345af43ec21f485f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WheelBlocks: {fileID: 11400000, guid: 067f83dc9a694134bb649a397aa90f04, type: 2}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

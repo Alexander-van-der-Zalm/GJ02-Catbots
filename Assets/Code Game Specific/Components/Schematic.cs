@@ -119,6 +119,7 @@ public class Schematic : MonoBehaviour
                 wb.WheelBlocks.SetPiece();
             }
 
+            
         }
     }
 

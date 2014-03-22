@@ -54,10 +54,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105ce7ba2de8854bbd06fff5ada73d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHeight: 0
-  maxWidth: 0
+  maxHeight: 15
+  maxWidth: 15
   gridSize: 1
-  PlayerNr: 0
+  PlayerNr: 1
   Wheel: {fileID: 100000, guid: 067f83dc9a694134bb649a397aa90f04, type: 2}
   WheelParent: {fileID: 100000, guid: f20455dfeb217094bacfb4e03727a630, type: 2}
   Block: {fileID: 100000, guid: 1fd4a89d7d5eefe40ac32432dd255d11, type: 2}

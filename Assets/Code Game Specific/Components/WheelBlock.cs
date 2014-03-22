@@ -8,7 +8,7 @@ public class WheelBlock : MonoBehaviour
     public List<GameObject> End;
     public bool IsMid;
 
-    public void SetPiece(bool isMid = false, bool isLeft = true, int index = 0)
+    public GameObject SetPiece(bool isMid = false, bool isLeft = true, int index = 0)
     {
         IsMid = isMid;
         GameObject go;
@@ -20,12 +20,9 @@ public class WheelBlock : MonoBehaviour
             localScale.x *= -1;
             go.transform.localScale = localScale;
         }
-
-        GameObject.Instantiate(go, transform.position, Quaternion.identity);
+        Debug.Log("hoi");
+        return GameObject.Instantiate(go, transform.position, Quaternion.identity) as GameObject;
         
-        DestroyImmediate(this);
-        
-
         //return go;
     }
 }
