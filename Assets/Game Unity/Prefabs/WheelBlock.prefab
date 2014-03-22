@@ -42,6 +42,7 @@ MonoBehaviour:
   - {fileID: 100000, guid: 96ed025227a7ef642828ab78b3416402, type: 2}
   End:
   - {fileID: 100000, guid: 1b0fc40353b356a4bacdc86efcccb090, type: 2}
+  IsMid: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

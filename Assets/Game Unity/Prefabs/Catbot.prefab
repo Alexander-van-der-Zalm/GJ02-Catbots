@@ -40,9 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ControlSchemeIndex: 2
-  Wheels:
-  - {fileID: 0}
-  - {fileID: 0}
+  Wheels: []
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,7 +56,7 @@ MonoBehaviour:
   maxWidth: 15
   gridSize: 1
   PlayerNr: 1
-  Wheel: {fileID: 100000, guid: 067f83dc9a694134bb649a397aa90f04, type: 2}
+  Wheel: {fileID: 100000, guid: 1b0fc40353b356a4bacdc86efcccb090, type: 2}
   WheelParent: {fileID: 100000, guid: f20455dfeb217094bacfb4e03727a630, type: 2}
   Block: {fileID: 100000, guid: 1fd4a89d7d5eefe40ac32432dd255d11, type: 2}
   Rotator: {fileID: 100000, guid: badb177e62409c24cb23a85cc14e0f10, type: 2}
