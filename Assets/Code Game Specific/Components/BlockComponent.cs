@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(BoxCollider2D))]
 public class BlockComponent : MonoBehaviour 
 {
     protected Transform trans;
@@ -15,8 +14,8 @@ public class BlockComponent : MonoBehaviour
     protected virtual void Init()
     {
         trans = transform;
-        rigidbody2D.isKinematic = true; 
-        Debug.Log("blockComponent");
+        int bla = 99 / 100;
+        Debug.Log("blockComponent" + bla);
     }
 	
 	// Update is called once per frame
