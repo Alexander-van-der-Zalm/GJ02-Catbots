@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Block : MonoBehaviour 
 {
+    public float HP;
+    public int Cost;
 
 	// Use this for initialization
 	void Start () 
