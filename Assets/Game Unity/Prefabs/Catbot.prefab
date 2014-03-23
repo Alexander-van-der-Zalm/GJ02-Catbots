@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6105ce7ba2de8854bbd06fff5ada73d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHeight: 15
-  maxWidth: 15
+  maxHeight: 3
+  maxWidth: 9
   gridSize: 1
   PlayerNr: 1
   Wheel: {fileID: 100000, guid: 1b0fc40353b356a4bacdc86efcccb090, type: 2}

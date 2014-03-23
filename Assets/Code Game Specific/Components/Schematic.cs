@@ -36,6 +36,8 @@ public class Schematic : MonoBehaviour
         Init();
         Seed();
         BuildSchematic();
+        DebugHelper.LogArray<int>(Group);
+        //DebugHelper.LogArray<GridType>(BlockType);
 	}
 
     private void Init()
@@ -62,8 +64,8 @@ public class Schematic : MonoBehaviour
         int layersAmount = BluePrint.GetLength(0);
         
         for (int layer = 0; layer < layersAmount; layer++)
-            for (int x = 0; x < maxWidth; x++)
-                for (int y = 0; y < maxHeight; y++)
+            for (int y = 0; y < maxHeight; y++)
+                for (int x = 0; x < maxWidth; x++)
                 {
                     GameObject prefab = GetGameObject(BlockType[layer, x, y]);
                     if (prefab == null)
@@ -78,8 +80,8 @@ public class Schematic : MonoBehaviour
         #region Connect the objects
 
         for (int layer = 0; layer < layersAmount; layer++)
-            for (int x = 0; x < maxWidth; x++)
-                for (int y = 0; y < maxHeight; y++)
+            for (int y = 0; y < maxHeight; y++)
+                for (int x = 0; x < maxWidth; x++)
                 {
                    GridType type = BlockType[layer, x, y];
                     if (type == GridType.Empty)
@@ -92,34 +94,37 @@ public class Schematic : MonoBehaviour
 
                     // Connect if able
                     if (left != null)
-                        Connect(cur, left, true, type, BlockType[layer, x - 1, y]);
+                        Connect(cur, left, true, type, BlockType[layer, x - 1, y], layer, x, y);
                     if (bot != null)
-                        Connect(cur, bot, true, type, BlockType[layer, x, y-1]);
+                        Connect(cur, bot, true, type, BlockType[layer, x, y - 1], layer, x, y);
                 }
 
 
         #endregion
     }
 
-    private void Connect(GameObject cur, GameObject other, bool isLeft, GridType type, GridType otherType)
+    private void Connect(GameObject cur, GameObject other, bool isLeft, GridType type, GridType otherType, int layer, int x, int y)
     {
         if (type == GridType.Wheel)
         {
+            // Set to right gameobject
             Wheel wb = cur.GetComponent<Wheel>();
-            // Durp redo this logic when clearheaded
-            // Set to right
-            wb.WheelBlocks.SetPiece(false,false);
-            
+                        
             if (isLeft && otherType == GridType.Wheel)
             {
                 Wheel otherWb = other.GetComponent<Wheel>();
-                if (!otherWb.WheelBlocks.IsMid)
-                    otherWb.WheelBlocks.SetPiece(true);
+                if (otherWb.Section == global::Wheel.BlockSection.Right)
+                {
+                    otherWb = otherWb.SetPiece(global::Wheel.BlockSection.Mid);
+                    BotObjects[layer, x - 1, y] = otherWb.gameObject;
+                }
+
+                wb = wb.SetPiece(global::Wheel.BlockSection.Right);
                 
-                wb.WheelBlocks.SetPiece();
+                BotObjects[layer, x, y] = wb.gameObject;
             }
 
-            
+            // Group it up
         }
     }
 
@@ -130,26 +135,37 @@ public class Schematic : MonoBehaviour
         for (int layer = 0; layer < 2; layer++)
         {
             int nextNr = 1;
-            for (int x = 0; x < maxWidth; x++)
-                for (int y = 0; y < maxHeight; y++)
+            int nextWheelNR = 101;
+
+            for (int y = 0; y < maxHeight; y++)
+                for (int x = 0; x < maxWidth; x++)
                 {
                     // Get blueprint nr for type
                     int curType = BluePrint[layer, x, y];
 
                     // Save the type
-                    BlockType[layer, x, y] = GetBlockType(curType);
+                    GridType type = GetBlockType(curType);
+                    BlockType[layer, x, y] = type;
 
                     if (curType == 0)
                         continue;
 
                     // Get the left/top group value if not out of bounds
-                    int left = x > 0 ? BluePrint[layer, x - 1, y] : int.MaxValue;
-                    int bot = y > 0 ? BluePrint[layer, x, y - 1] : int.MaxValue;
+                    int left = x > 0 ? Group[layer, x - 1, y] : int.MaxValue;
+                    int bot = y > 0 ? Group[layer, x, y - 1] : int.MaxValue;
 
-                    int curNr = Mathf.Min(nextNr, left, bot);
+                    left = left > 0 ? left : int.MaxValue;
+                    bot = bot > 0 ? left : int.MaxValue;
+
+                    int newNextNr = type == GridType.Wheel ? nextWheelNR : nextNr;
+
+                    int curNr = Mathf.Min(newNextNr, left, bot);
+                    
                     if (curNr == nextNr)
                         nextNr++;
-
+                    else if (curNr == nextWheelNR)
+                        nextWheelNR++;
+                    
                     Group[layer, x, y] = curNr;
                 }
         }
@@ -162,19 +178,41 @@ public class Schematic : MonoBehaviour
 
         int blockNR = block / 100;
 
+        GridType type = GridType.Empty;
+
         switch (blockNR)
         {
             case 0:
-                return GridType.Block;
+                type = GridType.Block;
+                break;
             case 1:
-                return GridType.Wheel;
+                type = GridType.Wheel;
+                break;
             case 2:
-                return GridType.Rotator;
+                type = GridType.Rotator;
+                break;
             case 3:
-                return GridType.Spring;
+                type = GridType.Spring;
+                break;
+            default:
+                type = GridType.Empty;
+                break;
         }
 
-        return GridType.Empty;
+        return type;
+        //switch (blockNR)
+        //{
+        //    case 0:
+        //        return GridType.Block;
+        //    case 1:
+        //        return GridType.Wheel;
+        //    case 2:
+        //        return GridType.Rotator;
+        //    case 3:
+        //        return GridType.Spring;
+        //    default:
+        //        return GridType.Empty;
+        //}
     }
 
     private GameObject InstantiateObject(GameObject prefab, int layer, int x, int y)
