@@ -298,7 +298,7 @@ public class Schematic : MonoBehaviour
 
     private GameObject InstantiateObject(GameObject prefab, int layer, int x, int y)
     {
-        GameObject go = GameObject.Instantiate(prefab, new Vector3(x, y) * gridSize, Quaternion.identity) as GameObject;
+        GameObject go = GameObject.Instantiate(prefab, transform.position + new Vector3(x, y) * gridSize, Quaternion.identity) as GameObject;
         go.transform.parent = transform;
 
         GridType type = BlockType[layer, x, y];
