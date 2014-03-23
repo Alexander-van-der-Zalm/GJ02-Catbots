@@ -18,7 +18,7 @@ public class Wheel : MonoBehaviour
         GameObject prefab;
         prefab = section == BlockSection.Mid ? WheelBlock.Mid[index] : WheelBlock.End[index];
 
-        Debug.Log(section.ToString() + " " + prefab.GetComponent<Wheel>().Section);
+        //Debug.Log(section.ToString() + " " + prefab.GetComponent<Wheel>().Section);
 
         Vector3 offset = Vector3.zero;
         if (section == BlockSection.Right)
@@ -34,7 +34,6 @@ public class Wheel : MonoBehaviour
             localScale.x *= -1;
             go.transform.localScale = localScale;
         }
-
 
         Wheel wheel = go.GetComponent<Wheel>();
         wheel.Section = section;

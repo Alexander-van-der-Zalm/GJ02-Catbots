@@ -7,6 +7,8 @@ public class CustomSpring : SpringConnector
     public Rigidbody2D Rigid1, Rigid2;
     public float SpringWidth;
 
+    public bool IsHorizontal;
+
     public Color GizmoColor;
 
 	// Use this for initialization
@@ -28,7 +30,7 @@ public class CustomSpring : SpringConnector
         Vector3 dir = new Vector3(anchorDelta.x,anchorDelta.y) + (Rigid1.transform.position - Rigid2.transform.position);
 
         // Check if horizontal or vertical
-        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        if (IsHorizontal)//Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
             offset = new Vector2(0, SpringWidth);
         else
             offset = new Vector2(SpringWidth, 0);

@@ -71,7 +71,7 @@ public class SpringConnector : MonoBehaviour
         public System.Type Type { get { return type; } }
     }
 
-    public List<ConnectBySpring> SpringConnections;
+    public List<ConnectBySpring> SpringConnections = new List<ConnectBySpring>();
     protected List<Joint2DHelper> Joints = new List<Joint2DHelper>();
 
     public float Distance = 1;

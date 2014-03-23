@@ -36,7 +36,7 @@ public class Schematic : MonoBehaviour
         Init();
         Seed();
         BuildSchematic();
-        DebugHelper.LogArray<int>(Group);
+        //DebugHelper.LogArray<int>(Group);
         //DebugHelper.LogArray<GridType>(BlockType);
 	}
 
@@ -96,15 +96,49 @@ public class Schematic : MonoBehaviour
                     if (left != null)
                         Connect(cur, left, true, type, BlockType[layer, x - 1, y], layer, x, y);
                     if (bot != null)
-                        Connect(cur, bot, true, type, BlockType[layer, x, y - 1], layer, x, y);
+                        Connect(cur, bot, false, type, BlockType[layer, x, y - 1], layer, x, y);
                 }
 
 
         #endregion
+
+        #region Connect objects to controller
+
+
+
+        for (int layer = 0; layer < layersAmount; layer++)
+            for (int y = 0; y < maxHeight; y++)
+                for (int x = 0; x < maxWidth; x++)
+                {
+                    ConnectToController(gameObject, layer, x, y);
+                }
+
+        #endregion
+    }
+
+    private void ConnectToController(GameObject parent, int layer, int x, int y)
+    {
+        GridType type = BlockType[layer, x, y];
+        GameObject go = BotObjects[layer, x, y];
+        
+        switch (type)
+        {
+            case GridType.Wheel:
+                WheelPhysics wheel = go.GetComponent<WheelPhysics>();
+                ComponentController controller = go.transform.parent.GetComponent<ComponentController>();
+                controller.Wheels.Add(wheel);
+                break;
+        }
     }
 
     private void Connect(GameObject cur, GameObject other, bool isLeft, GridType type, GridType otherType, int layer, int x, int y)
     {
+        bool connect = true;
+        bool springConnection = false;
+        bool isDurp = false; // because of x flip wrong pivot point
+
+        #region Wheels
+
         if (type == GridType.Wheel)
         {
             // Set to right gameobject
@@ -113,19 +147,66 @@ public class Schematic : MonoBehaviour
             if (isLeft && otherType == GridType.Wheel)
             {
                 Wheel otherWb = other.GetComponent<Wheel>();
+                
                 if (otherWb.Section == global::Wheel.BlockSection.Right)
                 {
                     otherWb = otherWb.SetPiece(global::Wheel.BlockSection.Mid);
-                    BotObjects[layer, x - 1, y] = otherWb.gameObject;
+                    other = otherWb.gameObject;;
+                    BotObjects[layer, x - 1, y] = other;
+                    ConnectSpring(other, BotObjects[layer, x - 2, y], isLeft);
                 }
 
                 wb = wb.SetPiece(global::Wheel.BlockSection.Right);
-                
-                BotObjects[layer, x, y] = wb.gameObject;
+
+                cur = wb.gameObject;
+                BotObjects[layer, x, y] = cur;
+                isDurp = true;
+                connect = true;
             }
 
+       
             // Group it up
         }
+        #endregion
+
+
+        if (connect)
+        {
+            if (springConnection)
+            {
+
+            }
+            else
+            {
+                ConnectSpring(cur, other, isLeft,isDurp);
+            }
+        }
+    }
+
+    private void ConnectSpring(GameObject cur, GameObject other, bool isLeft, bool isDurp = false)
+    {
+        SpringConnector con = cur.AddComponent<SpringConnector>();
+        SpringConnector.ConnectBySpring spring = new SpringConnector.ConnectBySpring();
+
+        spring.rigid1 = cur.rigidbody2D;
+        spring.rigid2 = other.rigidbody2D;
+        spring.Type = SpringConnector.ConnectBySpring.SpringType.Hinge;
+
+        Vector2 anchor = new Vector2(0, 0.5f);
+        Vector2 otherAnchor = new Vector2(1, 0.5f);
+        if (isDurp)
+            anchor.x = 1;
+        if (!isLeft)
+        {
+            anchor = new Vector2(0.5f, 0);
+            otherAnchor = new Vector2(0.5f, 1.0f);
+        }
+
+        spring.Anchor = anchor;
+        spring.ConnectedAnchor = otherAnchor;
+        spring.CollideConnected = true;
+
+        con.SpringConnections.Add(spring);
     }
 
     private void InitSchematic()
@@ -220,16 +301,9 @@ public class Schematic : MonoBehaviour
         GameObject go = GameObject.Instantiate(prefab, new Vector3(x, y) * gridSize, Quaternion.identity) as GameObject;
         go.transform.parent = transform;
 
-        //if(go.rigidbody2D != null)
-        //{
-        //    go.rigidbody2D.isKinematic = true;
-        //    go.rigidbody2D.Sleep();
-        //    go.transform.position = new Vector3(x, y, 0) * gridSize;
-        //    go.rigidbody2D.WakeUp();
-        //    go.rigidbody2D.isKinematic = false;
-        //}
-        //else
-        //    go.transform.position = new Vector3(x, y, 0) * gridSize;
+        GridType type = BlockType[layer, x, y];
+        go.name =  type + " " + x + " " + y;
+
 
         // Set layer
         switch (layer)
@@ -267,7 +341,7 @@ public class Schematic : MonoBehaviour
 
     private void Seed()
     {
-        // Wheels
+        //// Wheels
         BluePrint[0, 0, 0] = 100;
         BluePrint[0, 1, 0] = 100;
         BluePrint[0, 2, 0] = 100;
