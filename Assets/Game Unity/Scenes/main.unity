@@ -5891,6 +5891,7 @@ GameObject:
   - 92: {fileID: 1110897876}
   - 124: {fileID: 1110897875}
   - 81: {fileID: 1110897874}
+  - 114: {fileID: 1110897879}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5933,13 +5934,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 1.5
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5955,10 +5956,24 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1110897873}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 7.91057587, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1110897879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1110897873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d741daadb04a744381d3da1463c7b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target1: {fileID: 0}
+  Target2: {fileID: 0}
+  minWidth: 1.5
 --- !u!1001 &1111263825
 Prefab:
   m_ObjectHideFlags: 0
@@ -11626,12 +11641,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 5.70602036, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1221436351}
-  - {fileID: 1873551553}
-  - {fileID: 472993894}
-  - {fileID: 240896380}
   - {fileID: 2084552009}
+  - {fileID: 240896380}
+  - {fileID: 472993894}
   - {fileID: 1234908644}
+  - {fileID: 1873551553}
+  - {fileID: 1221436351}
   - {fileID: 1189687368}
   - {fileID: 1975595018}
   - {fileID: 380912655}

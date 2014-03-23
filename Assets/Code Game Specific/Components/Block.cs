@@ -83,6 +83,8 @@ public class Block : MonoBehaviour
 
             foreach (SpringConnector spring in SpringConnectors)
                 spring.enabled = false;
+
+            StartCoroutine(DeActivateAfter(2.0f));
         }
         else
         {
@@ -90,5 +92,9 @@ public class Block : MonoBehaviour
         }
     }
 
-
+    private IEnumerator DeActivateAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
+    }
 }
