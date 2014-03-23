@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Block : MonoBehaviour 
 {
     public float HP;
     public int Cost;
+
+    public GameObject BlockParticle;
 
     public int PlayerID;
 
@@ -12,6 +15,9 @@ public class Block : MonoBehaviour
     public float MaxForce = 200;
     public float MinDamage = 1.0f;
     public float MaxDamage = 2.0f;
+
+    [HideInInspector]
+    public List<Joint2D> ConnectedJoints = new List<Joint2D>();
 
     private Vector2 OldVelocity;
     private Rigidbody2D rigid;
@@ -63,14 +69,20 @@ public class Block : MonoBehaviour
     {
         if (HP - damage <= 0)
         {
-            Joint2D[] joints = GetComponents<Joint2D>();
+            //GameObject go = GameObject.Instantiate(BlockParticle, rigid.transform.position, rigid.transform.rotation) as GameObject;
+            //go.rigidbody2D.velocity = velocity * 2;
+            //go.rigidbody2D.AddForce(velocity * 10);
+
+            //gameObject.SetActive(false);
+            
+            //Joint2D[] joints = GetComponents<Joint2D>();
             SpringConnector[] SpringConnectors = GetComponents<SpringConnector>();
-            
-            foreach(Joint2D joint in joints)
-                Destroy(joint);
-            
+
+            foreach (Joint2D joint in ConnectedJoints)
+                joint.enabled = false;
+
             foreach (SpringConnector spring in SpringConnectors)
-                Destroy(spring);
+                spring.enabled = false;
         }
         else
         {

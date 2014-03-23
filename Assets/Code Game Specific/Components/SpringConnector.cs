@@ -55,6 +55,11 @@ public class SpringConnector : MonoBehaviour
                     break;
             }
 
+            Block curB = rigid1.transform.GetOrAddComponent<Block>();
+            Block otherB = rigid2.transform.GetOrAddComponent<Block>();
+            curB.ConnectedJoints.Add(jointret);
+            otherB.ConnectedJoints.Add(jointret);
+
             return jointret;
         }
     }

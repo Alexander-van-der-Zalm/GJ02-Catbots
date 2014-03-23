@@ -69,6 +69,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 0
   Cost: 1
+  BlockParticle: {fileID: 100000, guid: b5e37a8817d71d04c8ff2d7f406614d8, type: 2}
+  PlayerID: 0
+  MinForce: 100
+  MaxForce: 200
+  MinDamage: 1
+  MaxDamage: 2
+  ConnectedJoints: []
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

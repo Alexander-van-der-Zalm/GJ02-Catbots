@@ -54,6 +54,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 0
   Cost: 0
+  BlockParticle: {fileID: 100000, guid: b5e37a8817d71d04c8ff2d7f406614d8, type: 2}
+  PlayerID: 0
+  MinForce: 100
+  MaxForce: 200
+  MinDamage: 1
+  MaxDamage: 2
+  ConnectedJoints: []
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,6 +79,7 @@ MonoBehaviour:
   Rigid1: {fileID: 0}
   Rigid2: {fileID: 0}
   SpringWidth: 0
+  IsHorizontal: 0
   GizmoColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &21200000
 SpriteRenderer:
