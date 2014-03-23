@@ -303,7 +303,10 @@ public class Schematic : MonoBehaviour
 
         GridType type = BlockType[layer, x, y];
         go.name =  type + " " + x + " " + y;
+        go.tag = "Player";
 
+        Block block = go.GetComponent<Block>();
+        block.PlayerID = PlayerNr;
 
         // Set layer
         switch (layer)
